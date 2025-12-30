@@ -91,20 +91,13 @@ install_docker() {
 }
 
 # 4. Common honeynet installation logic
-USER_NAME="honeynet"
-USER_HOME="/home/$USER_NAME"
-PROJECT_DIR="$USER_HOME/honeynet"
+BASE_DIR="/opt/honeynet"
+PROJECT_DIR="/opt/honeynet/honeynet"
 SERVICE_NAME="honeynet.service"
 
 install_honeynet() {
-  echo "[*] Creating user $USER_NAME (if it does not already exist)..."
-  if ! id -u "$USER_NAME" >/dev/null 2>&1; then
-    useradd -m -s /bin/bash "$USER_NAME"
-  fi
-
-  echo "[*] Preparing project directory at $PROJECT_DIR..."
-  mkdir -p "$PROJECT_DIR"
-  chown "$USER_NAME:$USER_NAME" "$PROJECT_DIR"
+  echo "[*] Preparing base directory at $BASE_DIR..."
+  mkdir -p "$BASE_DIR"
 
   # It is assumed that honeynet.tar.gz and honeynet.service are in the same directory as this script
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -119,11 +112,10 @@ install_honeynet() {
     exit 1
   fi
 
-  echo "[*] Copying and extracting honeynet.tar.gz into $PROJECT_DIR..."
-  cp "$SCRIPT_DIR/honeynet.tar.gz" "$PROJECT_DIR/"
-  cd "$PROJECT_DIR"
+  echo "[*] Copying and extracting honeynet.tar.gz into $BASE_DIR..."
+  cp "$SCRIPT_DIR/honeynet.tar.gz" "$BASE_DIR/"
+  cd "$BASE_DIR"
   tar -xzvf honeynet.tar.gz
-  chown -R "$USER_NAME:$USER_NAME" "$PROJECT_DIR"
 
   # Special permissions for components
   echo "[*] Adjusting permissions for mitmproxy and logs..."

@@ -10,11 +10,45 @@ The main goals are:
 
 Once installed, the honeynet runs as a set of Docker containers orchestrated by `docker compose`, with an optional Portainer container that provides a graphical interface to manage Docker if desired.
 
----
+La honeynet se ha diseñado como un entorno compuesto por **dos conjuntos de servicios claramente diferenciados** y varios contenedores de soporte adicionales.
 
-## 1. Overview
+### Honeynet architecture overview
+
+The honeynet consists of two distinct sets of services, each deployed as its own group of containers. One group is intended to generate normal or legitimate traffic, while the other is explicitly designed for running different types of attacks against the same or equivalent services. In this way, it is possible to obtain two separate collections of logs: one capturing benign activity and another capturing malicious or attack traffic.
+
+In addition to these core honeypot services, several supporting containers are deployed:
+
+- **Portainer**: a graphical management environment for Docker containers, providing a web-based interface to inspect, start, stop, and monitor the containers that form the honeynet.
+- **Fluentd**: a unified logging component that collects logs from the different services and normalizes them into a consistent JSON format, facilitating downstream analysis and correlation.
+- **mitmproxy**: a reverse proxy used to intercept and inspect HTTP/HTTPS traffic directed at the web applications in the honeynet, enabling the generation of rich, well-structured logs that capture detailed request and response information.
+
+Together, these elements provide a flexible, observable, and fully instrumented honeynet environment suitable for both normal-traffic simulation and controlled attack experimentation. Containers list:
+
+- dvwa-normalidad
+
+- dvwa-pentesting
+
+- ftp-normalidad
+
+- ftp-pentesting
+
+- ssh-normalidad
+
+- ssh-pentesting
+
+- reverse-proxy-normalidad
+
+- reverse-proxy-pentesting
+
+- fluentd
+
+- portainer​
+
+
 
 This honeynet is designed as a collection of Dockerized services (honeypots and supporting components) defined in a `compose.yml` file.  
+
+
 The project includes:
 
 - A **universal installer script** (`install_honeynet.sh`) that:
@@ -112,8 +146,6 @@ If the effective user ID is not 0, it exits with an error and instructs you to r
 
 `sudo ./install_honeynet.sh`
 
-
-
 This is necessary because installing packages, creating system users, and writing to `/etc/systemd/system` all require root privileges.
 
 ### 4.3 Distribution and Package Manager Detection
@@ -158,8 +190,6 @@ After installation, the script enables and starts the `docker` service using:
 `systemctl enable docker`  
 `systemctl start docker`
 
-
-
 ### 4.5 Honeynet User and Project Directory
 
 To isolate the honeynet and keep its files organized, the script:
@@ -175,7 +205,9 @@ This directory becomes the root of the honeynet project.
 The script expects that both `honeynet.tar.gz` and `honeynet.service` are located in the **same directory as the installer script**. It then:
 
 1. Determines the directory where `install_honeynet.sh` resides.  
+
 2. Copies `honeynet.tar.gz` into `/home/honeynet/honeynet`.  
+
 3. Changes into that directory and extracts the archive with: 
    
    `tar -xzvf honeynet.tar.gz`
@@ -201,8 +233,6 @@ Once the files and permissions are in place, the script:
 1. Changes into the project directory (where `compose.yml` is located).  
 2. Runs: `docker compose up -d`
 
-
-
 This builds and starts all containers in the background (detached mode).  
 From this point, the honeynet should be up and running.
 
@@ -211,7 +241,9 @@ From this point, the honeynet should be up and running.
 To ensure the honeynet restarts automatically whenever the system boots, the script:
 
 1. Copies `honeynet.service` to `/etc/systemd/system/honeynet.service`.  
+
 2. Edits the `WorkingDirectory` entry in the service unit to match the actual project directory (for example, `/home/honeynet/honeynet`).  
+
 3. Reloads systemd units with: `systemctl daemon-reload`
 
 4. Enables and starts the service:
@@ -248,11 +280,13 @@ Place the following files in the same directory:
 2. **Make the script executable**
    
    `chmod +x install_honeynet.sh`
+
 3. **Run the installer as root**
    
    `sudo ./install_honeynet.sh`
    
    The script will:
+   
    - Detect your distribution.  
    
    - Install Docker and Docker Compose (if needed).  
@@ -266,6 +300,7 @@ Place the following files in the same directory:
    - Run `docker compose up -d`.  
    
    - Set up and enable the `honeynet.service` systemd unit.
+
 4. **Verify the installation**
    
    To check the running containers: `sudo docker ps`
@@ -330,6 +365,14 @@ On first access, Portainer will prompt you to create an **administrator account*
 
 If you do not wish to use Portainer, you can simply ignore this service or remove/disable the corresponding section from `compose.yml`.
 
+### 6.4 Using Portainer
+
+Once an administrator account has been created in Portainer and you have logged in, you must connect to the *local environment* in order to manage the containers running on the host. From the Portainer home screen, select the local Docker environment to access the management dashboard for this honeynet deployment.
+
+From the main dashboard, you can navigate to the different elements of the honeynet, including containers, images, networks, and volumes. This interface provides an organized view of all services, making it easy to inspect their status, restart or stop containers, and access logs and basic metrics.
+
+In this deployment, several containers are duplicated in order to provide **two distinct sets of services**, that is, two separate honeynets within the same infrastructure. On one of them (*normality*), only legitimate or benign traffic should be generated, with the goal of collecting activity logs that represent normal service usage. On the other (*pentesting*), different types of attacks are intentionally launched to obtain logs that capture malicious behavior against the same services. This design allows researchers to work with two clearly differentiated log sets: one for normal traffic and one for attack traffic.
+
 ---
 
 ## 7. Customization
@@ -369,5 +412,3 @@ It is **your responsibility** to:
 - Properly secure the host system and any exposed services.
 
 Use at your own risk.
-
-

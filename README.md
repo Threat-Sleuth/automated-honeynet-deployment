@@ -10,7 +10,7 @@ The main goals are:
 
 Once installed, the honeynet runs as a set of Docker containers orchestrated by `docker compose`, with an optional Portainer container that provides a graphical interface to manage Docker if desired.
 
-La honeynet se ha diseñado como un entorno compuesto por **dos conjuntos de servicios claramente diferenciados** y varios contenedores de soporte adicionales.
+
 
 ### Honeynet architecture overview
 
@@ -46,8 +46,9 @@ Together, these elements provide a flexible, observable, and fully instrumented 
 
 
 
-This honeynet is designed as a collection of Dockerized services (honeypots and supporting components) defined in a `compose.yml` file.  
+## 1. Overview
 
+This honeynet is designed as a collection of Dockerized services (honeypots and supporting components) defined in a `compose.yml` file.  
 
 The project includes:
 

@@ -36,6 +36,10 @@ Together, these elements provide a flexible, observable, and fully instrumented 
 
 - ssh-pentesting
 
+- mail-normalidad
+
+- mail-pentesting
+
 - reverse-proxy-normalidad
 
 - reverse-proxy-pentesting
@@ -196,7 +200,7 @@ After installation, the script enables and starts the `docker` service using:
 To isolate the honeynet and keep its files organized, the script:
 
 - Creates a dedicated system user called `honeynet` (if it does not already exist).  
-- Creates the directory `/home/honeynet/honeynet`.  
+- Creates the directory `/opt/honeynet/honeynet`.  
 - Sets the ownership of this directory to the `honeynet` user.
 
 This directory becomes the root of the honeynet project.
@@ -207,7 +211,7 @@ The script expects that both `honeynet.tar.gz` and `honeynet.service` are locate
 
 1. Determines the directory where `install_honeynet.sh` resides.  
 
-2. Copies `honeynet.tar.gz` into `/home/honeynet/honeynet`.  
+2. Copies `honeynet.tar.gz` into `/opt/honeynet/honeynet`.  
 
 3. Changes into that directory and extracts the archive with: 
    
@@ -243,7 +247,7 @@ To ensure the honeynet restarts automatically whenever the system boots, the scr
 
 1. Copies `honeynet.service` to `/etc/systemd/system/honeynet.service`.  
 
-2. Edits the `WorkingDirectory` entry in the service unit to match the actual project directory (for example, `/home/honeynet/honeynet`).  
+2. Edits the `WorkingDirectory` entry in the service unit to match the actual project directory (for example, `/opt/honeynet/honeynet`).  
 
 3. Reloads systemd units with: `systemctl daemon-reload`
 
@@ -294,7 +298,7 @@ Place the following files in the same directory:
    
    - Create the `honeynet` user and project directory.  
    
-   - Extract the honeynet archive into `/home/honeynet/honeynet`.  
+   - Extract the honeynet archive into `/opt/honeynet/honeynet`.  
    
    - Apply the necessary permissions.  
    
@@ -310,7 +314,7 @@ Place the following files in the same directory:
 
 ### 5.3 Managing the Honeynet After Installation
 
-To manage the honeynet manually using Docker Compose, first change into the project directory: `cd /home/honeynet/honeynet`
+To manage the honeynet manually using Docker Compose, first change into the project directory: `cd /opt/honeynet/honeynet`
 
 Then you can use the usual Docker Compose commands:
 

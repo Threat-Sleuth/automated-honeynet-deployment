@@ -36,9 +36,9 @@ Together, these elements provide a flexible, observable, and fully instrumented 
 
 - ssh-pentesting
 
-- mail-normalidad
+- mailserver-normalidad
 
-- mail-pentesting
+- mailserver-pentesting
 
 - reverse-proxy-normalidad
 

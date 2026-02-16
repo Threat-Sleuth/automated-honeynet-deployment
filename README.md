@@ -10,8 +10,6 @@ The main goals are:
 
 Once installed, the honeynet runs as a set of Docker containers orchestrated by `docker compose`, with an optional Portainer container that provides a graphical interface to manage Docker if desired.
 
-
-
 ### Honeynet architecture overview
 
 The honeynet consists of two distinct sets of services, each deployed as its own group of containers. One group is intended to generate normal or legitimate traffic, while the other is explicitly designed for running different types of attacks against the same or equivalent services. In this way, it is possible to obtain two separate collections of logs: one capturing benign activity and another capturing malicious or attack traffic.
@@ -22,23 +20,23 @@ In addition to these core honeypot services, several supporting containers are d
 - **Fluentd**: a unified logging component that collects logs from the different services and normalizes them into a consistent JSON format, facilitating downstream analysis and correlation.
 - **mitmproxy**: a reverse proxy used to intercept and inspect HTTP/HTTPS traffic directed at the web applications in the honeynet, enabling the generation of rich, well-structured logs that capture detailed request and response information.
 
-Together, these elements provide a flexible, observable, and fully instrumented honeynet environment suitable for both normal-traffic simulation and controlled attack experimentation. Containers list:
+Together, these elements provide a flexible, observable, and fully instrumented honeynet environment suitable for both normal-traffic simulation and controlled attack experimentation. Containers list and their access ports:
 
-- dvwa-normalidad
+- dvwa-normalidad -p 80
 
-- dvwa-pentesting
+- dvwa-pentesting -p 81
 
-- ftp-normalidad
+- ftp-normalidad -p 2121
 
-- ftp-pentesting
+- ftp-pentesting -p 2122
 
-- ssh-normalidad
+- ssh-normalidad -p 2222
 
-- ssh-pentesting
+- ssh-pentesting -p 2223
 
-- mailserver-normalidad
+- mail-normalidad -p 587 (SMTP), 143 (IMAP)
 
-- mailserver-pentesting
+- mail-pentesting -p 1587 (SMTP), 1143 (IMAP)
 
 - reverse-proxy-normalidad
 
@@ -46,9 +44,7 @@ Together, these elements provide a flexible, observable, and fully instrumented 
 
 - fluentd
 
-- portainer​
-
-
+- portainer​ -p 9000
 
 ## 1. Overview
 

@@ -20,23 +20,23 @@ In addition to these core honeypot services, several supporting containers are d
 - **Fluentd**: a unified logging component that collects logs from the different services and normalizes them into a consistent JSON format, facilitating downstream analysis and correlation.
 - **mitmproxy**: a reverse proxy used to intercept and inspect HTTP/HTTPS traffic directed at the web applications in the honeynet, enabling the generation of rich, well-structured logs that capture detailed request and response information.
 
-Together, these elements provide a flexible, observable, and fully instrumented honeynet environment suitable for both normal-traffic simulation and controlled attack experimentation. Containers list and their access ports:
+Together, these elements provide a flexible, observable, and fully instrumented honeynet environment suitable for both normal-traffic simulation and controlled attack experimentation. Containers list and their ports and access credentials:
 
-- dvwa-normalidad -p 80
+- dvwa-normalidad -p 80 admin/password
 
-- dvwa-pentesting -p 81
+- dvwa-pentesting -p 81 admin/password
 
-- ftp-normalidad -p 2121
+- ftp-normalidad -p 2121 ftpuser/password
 
-- ftp-pentesting -p 2122
+- ftp-pentesting -p 2122 ftpuser/password
 
-- ssh-normalidad -p 2222
+- ssh-normalidad -p 2222 root/password
 
-- ssh-pentesting -p 2223
+- ssh-pentesting -p 2223 root/password
 
-- mail-normalidad -p 587 (SMTP), 143 (IMAP)
+- mail-normalidad -p 587 (SMTP), 143 (IMAP) usuario1@normalidad.tics, usuario2@normalidad.tics/password
 
-- mail-pentesting -p 1587 (SMTP), 1143 (IMAP)
+- mail-pentesting -p 1587 (SMTP), 1143 (IMAP) usuario1@pentesting.tics, usuario2@pentesting.tics/password
 
 - reverse-proxy-normalidad
 

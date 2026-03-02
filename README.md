@@ -413,3 +413,78 @@ It is **your responsibility** to:
 - Properly secure the host system and any exposed services.
 
 Use at your own risk.
+
+
+
+---
+
+## 9. Uninstallation
+
+The project includes a helper script called `uninstall_honeynet.sh`, which is designed to completely remove the honeynet deployment from the system and revert all changes performed by the installer.
+
+### 9.1 What the Uninstall Script Does
+
+When executed with sufficient privileges, `uninstall_honeynet.sh` performs the following actions:
+
+1. Stops the `honeynet.service` systemd unit (if present).
+2. Disables the service to prevent automatic start at boot.
+3. Executes `docker compose down -v --remove-orphans` from the honeynet project directory (`/opt/honeynet/honeynet`) to:
+   - Stop all running containers.
+   - Remove containers.
+   - Remove associated volumes.
+4. Deletes the systemd unit file (`/etc/systemd/system/honeynet.service`).
+5. Removes the honeynet project directory (`/opt/honeynet`).
+6. Optionally prunes unused Docker images, volumes, networks, and build cache.
+
+After successful execution, the honeynet containers, images created by the project, service unit, and project files will be removed from the system.
+
+### 9.2 Requirements for Proper Execution
+
+For `uninstall_honeynet.sh` to function correctly, the following conditions must be met:
+
+- The script must be executed with **root privileges**, for example:
+  
+  `sudo ./uninstall_honeynet.sh`
+
+- The user executing Docker commands must have permission to access the Docker daemon.
+  
+  This can be achieved in one of two ways:
+  
+  **Option A – Run everything with sudo (recommended for simplicity)**  
+  Always execute the uninstall script using `sudo`.
+  
+  **Option B – Add the user to the docker group**  
+  
+  `sudo usermod -aG docker <username>`
+  
+  After running this command, the user must log out and log back in for the group membership to take effect.
+  
+  You can verify group membership with: `groups`
+  
+  The output should include `docker`.
+  
+  If the user does not have permission to access `/var/run/docker.sock`, Docker commands will fail with an error such as: permission denied while trying to connect to the docker API at unix:`///var/run/docker.sock`
+  
+  In that case, either use `sudo` or ensure proper group membership before running the uninstall script.
+
+### 9.3 Manual Verification After Uninstallation
+
+To confirm that the honeynet has been fully removed, you may check:
+
+- Running containers:
+  
+  `docker ps`
+
+- Existing containers (including stopped ones):
+  
+  `docker ps -a`
+
+- Systemd service status:
+  
+  `systemctl status honeynet.service`
+
+- Project directory:
+  
+  `ls /opt`
+
+The honeynet should no longer appear in any of these checks if uninstallation completed successfully.

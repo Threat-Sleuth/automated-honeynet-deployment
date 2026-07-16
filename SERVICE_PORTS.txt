@@ -1,0 +1,67 @@
+nmap -p- -sV 100.10.10.3
+Starting Nmap 7.98 ( https://nmap.org ) at 2026-02-14 08:12 -0500
+Nmap scan report for 100.10.10.3
+Host is up (0.0078s latency).
+Not shown: 65528 closed tcp ports (reset)
+PORT      STATE SERVICE VERSION
+80/tcp    open  http    Apache httpd 2.4.25 ((Debian))
+81/tcp    open  http    Apache httpd 2.4.25 ((Debian))
+2121/tcp  open  ftp     vsftpd 3.0.3
+2122/tcp  open  ftp     vsftpd 3.0.3
+2222/tcp  open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+2223/tcp  open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+24224/tcp open  unknown
+
+----------------------------------------------------------
+
+SMB
+smb-normalidad, puerto -> 445
+
+smb-pentesting, puerto -> 1445
+
+usuario -> user
+
+contraseña -> password
+
+----------------------------------------------------------
+
+BASE DE DATOS
+
+db-normalidad, puerto -> 5433
+
+db-pentesting, puerto -> 5434
+
+base de datos -> mydatabase
+
+usuario -> myuser
+
+contraseña -> mypassword
+
+----------------------------------------------------------
+
+api-normalidad, puerto -> 8000
+
+api-pentesting, puerto -> 8001
+
+--------------------------------------------------------
+
+VPN
+
+Normalidad, puertos ->
+
+- 51820 / udp
+
+- 51821 / tcp
+
+Pentesting, puertos ->
+
+- 51822 / udp
+
+- 51823 / tcp
+
+----------------------------------------------------
+
+En el archivo install_honeynet.sh, meter en la linea 133 (antes de "docker compose up -d"), esta línea:
+
+ export HOST_IP=$(hostname -I | awk '{print $1}')
+

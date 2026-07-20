@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Automated Honeynet Deployment"
+type: software
+version: 2.1.0
+date-released: 2026-07-20
+authors:
+  - family-names: "Díaz García"
+    given-names: "Pedro"
+  - family-names: "López Abril"
+    given-names: "Diego"
+  - family-names: "Bermejo Higuera"
+    given-names: "Javier"
+  - family-names: "González Llorente"
+    given-names: "Víctor"
+  - family-names: "Vidal Cortés"
+    given-names: "Francisco Javier"
+  - family-names: "Sicilia Urban"
+    given-names: "Miguel Ángel"
+license: MIT
+keywords:
+  - honeynet
+  - cybersecurity
+  - reproducibility
+  - attack-event capture
+  - dataset generation

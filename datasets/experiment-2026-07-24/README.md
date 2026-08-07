@@ -10,7 +10,7 @@ The data were generated during controlled experimental campaigns executed agains
 
 The platform maintains logically separated environments for benign and offensive activity while deploying functionally equivalent network services. This design enables the collection of service-specific telemetry under controlled experimental conditions.
 
-The dataset published here covers the following services:
+The processed dataset published here covers the following services:
 
 - FTP
 - HTTP
@@ -20,7 +20,7 @@ The dataset published here covers the following services:
 - SMTP
 - SSH
 
-The experimental evidence is provided at three different processing levels.
+The experimental material is provided at three complementary levels: raw service logs, campaign event records, and processed service-level datasets.
 
 ## Dataset Structure
 
@@ -30,10 +30,10 @@ experiment-2026-07-24/
 ├── README.md
 │
 ├── raw/
-│   └── raw-service-logs.zip
+│   └── LOGS.240726.zip
 │
 ├── events/
-│   └── events.jsonl
+│   └── events.zip
 │
 └── processed/
-    └── clean-service-datasets.zip
+    └── clean_datasets.zip
